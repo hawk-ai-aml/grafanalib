@@ -1809,6 +1809,7 @@ class AlertFileBasedProvisioning(object):
     """
 
     groups = attr.ib()
+    uid = attr.ib(default='alert')
 
     def to_json_data(self):
         return {
