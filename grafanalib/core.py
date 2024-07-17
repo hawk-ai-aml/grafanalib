@@ -107,7 +107,7 @@ DEFAULT_REFRESH = '10s'
 DEFAULT_ALERT_EVALUATE_INTERVAL = '1m'
 DEFAULT_ALERT_EVALUATE_FOR = '5m'
 DEFAULT_ROW_HEIGHT = Pixels(250)
-DEFAULT_LINE_WIDTH = 2
+DEFAULT_LINE_WIDTH = 1
 DEFAULT_POINT_RADIUS = 5
 DEFAULT_RENDERER = FLOT
 DEFAULT_STEP = 10
@@ -495,18 +495,18 @@ class Grid(object):
 @attr.s
 class Legend(object):
     avg = attr.ib(default=False, validator=instance_of(bool))
-    current = attr.ib(default=False, validator=instance_of(bool))
-    max = attr.ib(default=False, validator=instance_of(bool))
-    min = attr.ib(default=False, validator=instance_of(bool))
+    current = attr.ib(default=True, validator=instance_of(bool))
+    max = attr.ib(default=True, validator=instance_of(bool))
+    min = attr.ib(default=True, validator=instance_of(bool))
     show = attr.ib(default=True, validator=instance_of(bool))
     total = attr.ib(default=False, validator=instance_of(bool))
     values = attr.ib(default=None)
-    alignAsTable = attr.ib(default=False, validator=instance_of(bool))
+    alignAsTable = attr.ib(default=True, validator=instance_of(bool))
     hideEmpty = attr.ib(default=False, validator=instance_of(bool))
     hideZero = attr.ib(default=False, validator=instance_of(bool))
-    rightSide = attr.ib(default=False, validator=instance_of(bool))
+    rightSide = attr.ib(default=True, validator=instance_of(bool))
     sideWidth = attr.ib(default=None)
-    sort = attr.ib(default=None)
+    sort = attr.ib(default="asc")
     sortDesc = attr.ib(default=False)
 
     def to_json_data(self):
@@ -678,7 +678,7 @@ class XAxis(object):
 
     mode = attr.ib(default='time', validator=is_valid_xaxis_mode)
     name = attr.ib(default=None)
-    values = attr.ib(default=attr.Factory(list))
+    values = attr.ib(default=attr.Factory(["current"]))
     show = attr.ib(validator=instance_of(bool), default=True)
 
     def to_json_data(self):
@@ -688,8 +688,7 @@ class XAxis(object):
             'values': self.values,
             'show': self.show,
         }
-
-
+    
 @attr.s
 class YAxis(object):
     """A single Y axis.
@@ -2126,7 +2125,7 @@ class Graph(Panel):
     )
     lines = attr.ib(default=True, validator=instance_of(bool))
     lineWidth = attr.ib(default=DEFAULT_LINE_WIDTH)
-    nullPointMode = attr.ib(default=NULL_CONNECTED)
+    nullPointMode = attr.ib(default=NULL_AS_NULL)
     percentage = attr.ib(default=False, validator=instance_of(bool))
     pointRadius = attr.ib(default=DEFAULT_POINT_RADIUS)
     points = attr.ib(default=False, validator=instance_of(bool))
