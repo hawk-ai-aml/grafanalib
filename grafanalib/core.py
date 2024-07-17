@@ -678,7 +678,7 @@ class XAxis(object):
 
     mode = attr.ib(default='time', validator=is_valid_xaxis_mode)
     name = attr.ib(default=None)
-    values = attr.ib(default=attr.Factory(["current"]))
+    values = attr.ib(default=["current"])
     show = attr.ib(validator=instance_of(bool), default=True)
 
     def to_json_data(self):
@@ -1836,7 +1836,7 @@ class Dashboard(object):
         default=attr.Factory(Annotations),
         validator=instance_of(Annotations),
     )
-    description = attr.ib(default="", validator=instance_of(str))
+    description = attr.ib(default="This panel has been provisioned. Manual changes on the panel will be overridden if they are not persisted.", validator=instance_of(str))
     editable = attr.ib(
         default=True,
         validator=instance_of(bool),
