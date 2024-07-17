@@ -1709,6 +1709,95 @@ class AlertRulev9(object):
             },
         }
 
+@attr.s
+class AlertRulev11(object):
+    """
+    Create a Grafana 11.x+ Alert Rule
+
+    :param title: The alert's title, must be unique per folder
+    :param triggers: A list of Targets and AlertConditions.
+        The Target specifies the query, and the AlertCondition specifies how this is used to alert.
+    :param annotations: Summary and annotations
+        Dictionary with one of the following key or custom key
+        ['runbook_url', 'summary', 'description', '__alertId__', '__dashboardUid__', '__panelId__']
+    :param labels: Custom Labels for the metric, used to handle notifications
+    :param condition: Set one of the queries or expressions as the alert condition by refID (Grafana 9.x)
+
+    :param evaluateFor: The duration for which the condition must be true before an alert fires
+        The Interval is set by the alert group
+    :param noDataAlertState: Alert state if no data or all values are null
+        Must be one of the following:
+        [ALERTRULE_STATE_DATA_OK, ALERTRULE_STATE_DATA_ALERTING, ALERTRULE_STATE_DATA_NODATA ]
+    :param errorAlertState: Alert state if execution error or timeout
+        Must be one of the following:
+        [ALERTRULE_STATE_DATA_OK, ALERTRULE_STATE_DATA_ALERTING, ALERTRULE_STATE_DATA_ERROR ]
+
+    :param timeRangeFrom: Time range interpolation data start from
+    :param timeRangeTo: Time range interpolation data finish at
+    :param uid: Alert UID should be unique
+    :param dashboard_uid: Dashboard UID that should be use for linking on alert message
+    :param panel_id: Panel ID that should should be use for linking on alert message
+    """
+
+    title = attr.ib()
+    triggers = attr.ib(factory=list, validator=is_valid_triggersv9)
+    annotations = attr.ib(factory=dict, validator=instance_of(dict))
+    labels = attr.ib(factory=dict, validator=instance_of(dict))
+
+    evaluateFor = attr.ib(default=DEFAULT_ALERT_EVALUATE_FOR, validator=instance_of(str))
+    noDataAlertState = attr.ib(
+        default=ALERTRULE_STATE_DATA_ALERTING,
+        validator=in_([
+            ALERTRULE_STATE_DATA_OK,
+            ALERTRULE_STATE_DATA_ALERTING,
+            ALERTRULE_STATE_DATA_NODATA
+        ])
+    )
+    errorAlertState = attr.ib(
+        default=ALERTRULE_STATE_DATA_ALERTING,
+        validator=in_([
+            ALERTRULE_STATE_DATA_OK,
+            ALERTRULE_STATE_DATA_ALERTING,
+            ALERTRULE_STATE_DATA_ERROR
+        ])
+    )
+    condition = attr.ib(default='B')
+    timeRangeFrom = attr.ib(default=300, validator=instance_of(int))
+    timeRangeTo = attr.ib(default=0, validator=instance_of(int))
+    uid = attr.ib(default=None, validator=attr.validators.optional(instance_of(str)))
+    dashboard_uid = attr.ib(default="", validator=instance_of(str))
+    panel_id = attr.ib(default=0, validator=instance_of(int))
+
+    def to_json_data(self):
+        data = []
+
+        for trigger in self.triggers:
+            if isinstance(trigger, Target):
+                target = trigger
+                data += [{
+                    "refId": target.refId,
+                    "relativeTimeRange": {
+                        "from": self.timeRangeFrom,
+                        "to": self.timeRangeTo
+                    },
+                    "datasourceUid": target.datasource,
+                    "model": target.to_json_data(),
+                }]
+            else:
+                data += [trigger.to_json_data()]
+
+        return {
+            "uid": self.uid,
+            "for": self.evaluateFor,
+            "labels": self.labels,
+            "annotations": self.annotations,
+            "title": self.title,
+            "condition": self.condition,
+            "data": data,
+            "no_data_state": self.noDataAlertState,
+            "exec_err_state": self.errorAlertState,
+        }
+
 
 @attr.s
 class AlertFileBasedProvisioning(object):
@@ -1719,6 +1808,7 @@ class AlertFileBasedProvisioning(object):
     """
 
     groups = attr.ib()
+    uid = attr.ib(default='alert')
 
     def to_json_data(self):
         return {
