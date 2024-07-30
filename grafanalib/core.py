@@ -587,6 +587,8 @@ class Target(object):
     target = attr.ib(default="")
     instant = attr.ib(validator=instance_of(bool), default=False)
     datasource = attr.ib(default=None)
+    timeRangeFrom = attr.ib(default=0, validator=instance_of(int))
+    timeRangeTo = attr.ib(default=0, validator=instance_of(int))
 
     def to_json_data(self):
         return {
@@ -1774,11 +1776,16 @@ class AlertRulev11(object):
         for trigger in self.triggers:
             if isinstance(trigger, Target):
                 target = trigger
+                relativeTimeRangeFrom = self.timeRangeFrom
+                relativeTimeRangeTo = self.timeRangeTo
+                if target.timeRangeFrom != 0:
+                    relativeTimeRangeFrom = target.timeRangeFrom
+                    relativeTimeRangeTo = target.timeRangeTo
                 data += [{
                     "refId": target.refId,
                     "relativeTimeRange": {
-                        "from": self.timeRangeFrom,
-                        "to": self.timeRangeTo
+                        "from": relativeTimeRangeFrom,
+                        "to": relativeTimeRangeTo
                     },
                     "datasourceUid": target.datasource,
                     "model": target.to_json_data(),
