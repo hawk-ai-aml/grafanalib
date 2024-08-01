@@ -40,5 +40,4 @@ class PrometheusTarget(Target):
             'refId': self.refId,
             'step': self.step,
             'instant': self.instant,
-            'datasource': self.datasource,
         }
