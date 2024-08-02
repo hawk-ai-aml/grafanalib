@@ -364,17 +364,21 @@ class ElasticsearchTarget(Target):
     :param refId: target reference id
     :param timeField: name of the elasticsearch time field
     :param hide: show/hide the target result in the final panel display
+    :param datasource: Grafana datasource name
     """
 
     alias = attr.ib(default=None)
     bucketAggs = attr.ib(
         default=attr.Factory(lambda: [DateHistogramGroupBy()]),
     )
+    interval = attr.ib(default="", validator=instance_of(str))
+    intervalFactor = attr.ib(default=2)
     metricAggs = attr.ib(default=attr.Factory(lambda: [CountMetricAgg()]))
     query = attr.ib(default="", validator=instance_of(str))
     refId = attr.ib(default="", validator=instance_of(str))
     timeField = attr.ib(default="@timestamp", validator=instance_of(str))
     hide = attr.ib(default=False, validator=instance_of(bool))
+    datasource = attr.ib(default=None)
 
     def _map_bucket_aggs(self, f):
         return attr.evolve(self, bucketAggs=list(map(f, self.bucketAggs)))
