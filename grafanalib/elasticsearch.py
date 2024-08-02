@@ -3,7 +3,7 @@
 import attr
 import itertools
 from attr.validators import in_, instance_of
-from grafanalib.core import AlertCondition
+from grafanalib.core import AlertCondition, Target
 
 DATE_HISTOGRAM_DEFAULT_FIELD = 'time_iso8601'
 ORDER_ASC = 'asc'
@@ -349,7 +349,7 @@ class TermsGroupBy(object):
 
 
 @attr.s
-class ElasticsearchTarget(object):
+class ElasticsearchTarget(Target):
     """Generates Elasticsearch target JSON structure.
 
     Grafana docs on using Elasticsearch:
@@ -405,7 +405,10 @@ class ElasticsearchTarget(object):
         return {
             'alias': self.alias,
             'bucketAggs': self.bucketAggs,
+            'datasource': self.datasource,
             'metrics': self.metricAggs,
+            'interval': self.interval,
+            'intervalFactor': self.intervalFactor,
             'query': self.query,
             'refId': self.refId,
             'timeField': self.timeField,
