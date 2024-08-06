@@ -371,9 +371,8 @@ class ElasticsearchTarget(Target):
     bucketAggs = attr.ib(
         default=attr.Factory(lambda: [DateHistogramGroupBy()]),
     )
-    interval = attr.ib(default="", validator=instance_of(str))
-    intervalFactor = attr.ib(default=2)
     metricAggs = attr.ib(default=attr.Factory(lambda: [CountMetricAgg()]))
+    intervalMs = attr.ib(default=1000, validator=instance_of(int))
     query = attr.ib(default="", validator=instance_of(str))
     refId = attr.ib(default="", validator=instance_of(str))
     timeField = attr.ib(default="@timestamp", validator=instance_of(str))
@@ -411,8 +410,7 @@ class ElasticsearchTarget(Target):
             'bucketAggs': self.bucketAggs,
             'datasource': self.datasource,
             'metrics': self.metricAggs,
-            'interval': self.interval,
-            'intervalFactor': self.intervalFactor,
+            'intervalMs': self.intervalMs,
             'query': self.query,
             'refId': self.refId,
             'timeField': self.timeField,
