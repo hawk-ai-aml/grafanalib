@@ -256,6 +256,8 @@ ALERTRULE_STATE_DATA_ERROR = 'Error'
 SORT_ASC = 1
 SORT_DESC = 2
 SORT_IMPORTANCE = 3
+SORT_TIME_ASC = 4
+SORT_TIME_DESC = 5
 
 # Template
 REFRESH_NEVER = 0
@@ -2806,7 +2808,7 @@ class AlertList(object):
     nameFilter = attr.ib(default="", validator=instance_of(str))
     onlyAlertsOnDashboard = attr.ib(default=True, validator=instance_of(bool))
     show = attr.ib(default=ALERTLIST_SHOW_CURRENT)
-    sortOrder = attr.ib(default=SORT_ASC, validator=in_([1, 2, 3]))
+    sortOrder = attr.ib(default=SORT_ASC, validator=in_([1, 2, 3, 4, 5]))
     span = attr.ib(default=6)
     stateFilter = attr.ib(
         default={
