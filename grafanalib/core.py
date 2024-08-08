@@ -688,7 +688,7 @@ class XAxis(object):
             'values': self.values,
             'show': self.show,
         }
-    
+
 @attr.s
 class YAxis(object):
     """A single Y axis.
@@ -2808,7 +2808,16 @@ class AlertList(object):
     show = attr.ib(default=ALERTLIST_SHOW_CURRENT)
     sortOrder = attr.ib(default=SORT_ASC, validator=in_([1, 2, 3]))
     span = attr.ib(default=6)
-    stateFilter = attr.ib(default=attr.Factory(list))
+    stateFilter = attr.ib(
+        default=attr.Factory({
+          "error": True,
+          "firing": True,
+          "noData": True,
+          "normal": True,
+          "pending": True
+        })
+    )
+
     title = attr.ib(default="")
     transparent = attr.ib(default=False, validator=instance_of(bool))
     alertName = attr.ib(default="", validator=instance_of(str))
@@ -2822,19 +2831,19 @@ class AlertList(object):
             'description': self.description,
             'gridPos': self.gridPos,
             'id': self.id,
-            'limit': self.limit,
             'links': self.links,
             'nameFilter': self.nameFilter,
             'onlyAlertsOnDashboard': self.onlyAlertsOnDashboard,
             'show': self.show,
-            'sortOrder': self.sortOrder,
             'span': self.span,
-            'stateFilter': self.stateFilter,
             'title': self.title,
             'transparent': self.transparent,
             'type': ALERTLIST_TYPE,
             "options": {
-                "alertName": self.alertName
+                "alertName": self.alertName,
+                "stateFilter": self.stateFilter,
+                'sortOrder': self.sortOrder,
+                'maxItems': self.limit,
             },
         }
 
