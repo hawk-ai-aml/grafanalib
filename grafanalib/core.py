@@ -2809,13 +2809,13 @@ class AlertList(object):
     sortOrder = attr.ib(default=SORT_ASC, validator=in_([1, 2, 3]))
     span = attr.ib(default=6)
     stateFilter = attr.ib(
-        default=attr.Factory({
+        default={
           "error": True,
           "firing": True,
           "noData": True,
           "normal": True,
           "pending": True
-        })
+        }
     )
 
     title = attr.ib(default="")
