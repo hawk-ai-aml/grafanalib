@@ -252,6 +252,10 @@ ALERTRULE_STATE_DATA_NODATA = 'No Data'
 ALERTRULE_STATE_DATA_ALERTING = 'Alerting'
 ALERTRULE_STATE_DATA_ERROR = 'Error'
 
+# Alert Rule state filter options (Grafana 11.x)
+ALERTRULE_STATE_DATA_NODATA_V11 = 'NoData'
+ALERTRULE_STATE_DATA_KEEPLAST_V11 = 'KeepLast'
+
 # Display Sort Order
 SORT_ASC = 1
 SORT_DESC = 2
@@ -1748,11 +1752,12 @@ class AlertRulev11(object):
 
     evaluateFor = attr.ib(default=DEFAULT_ALERT_EVALUATE_FOR, validator=instance_of(str))
     noDataAlertState = attr.ib(
-        default=ALERTRULE_STATE_DATA_ALERTING,
+        default=ALERTRULE_STATE_DATA_KEEPLAST_V11,
         validator=in_([
             ALERTRULE_STATE_DATA_OK,
             ALERTRULE_STATE_DATA_ALERTING,
-            ALERTRULE_STATE_DATA_NODATA
+            ALERTRULE_STATE_DATA_NODATA_V11,
+            ALERTRULE_STATE_DATA_KEEPLAST_V11
         ])
     )
     errorAlertState = attr.ib(
@@ -1760,7 +1765,8 @@ class AlertRulev11(object):
         validator=in_([
             ALERTRULE_STATE_DATA_OK,
             ALERTRULE_STATE_DATA_ALERTING,
-            ALERTRULE_STATE_DATA_ERROR
+            ALERTRULE_STATE_DATA_ERROR,
+            ALERTRULE_STATE_DATA_KEEPLAST_V11
         ])
     )
     condition = attr.ib(default='B')
