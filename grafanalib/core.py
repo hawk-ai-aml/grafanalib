@@ -1796,8 +1796,8 @@ class AlertRulev11(object):
             "title": self.title,
             "condition": self.condition,
             "data": data,
-            "no_data_state": self.noDataAlertState,
-            "exec_err_state": self.errorAlertState,
+            "noDataState": self.noDataAlertState,
+            "execErrState": self.errorAlertState,
             "dashboardUid": self.dashboard_uid,
             "panelId": self.panel_id,
         }
