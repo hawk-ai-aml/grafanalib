@@ -512,8 +512,8 @@ class Legend(object):
     hideZero = attr.ib(default=False, validator=instance_of(bool))
     rightSide = attr.ib(default=True, validator=instance_of(bool))
     sideWidth = attr.ib(default=None)
-    sort = attr.ib(default="asc")
-    sortDesc = attr.ib(default=False)
+    sort = attr.ib(default="current", validator=instance_of(str))
+    sortDesc = attr.ib(default=True)
 
     def to_json_data(self):
         values = ((self.avg or self.current or self.max or self.min)
