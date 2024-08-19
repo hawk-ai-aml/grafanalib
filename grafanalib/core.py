@@ -2384,12 +2384,12 @@ class TimeSeries(Panel):
     barAlignment = attr.ib(default=0, validator=instance_of(int))
     colorMode = attr.ib(default='palette-classic', validator=instance_of(str))
     drawStyle = attr.ib(default='line', validator=instance_of(str))
-    fillOpacity = attr.ib(default=0, validator=instance_of(int))
+    fillOpacity = attr.ib(default=5, validator=instance_of(int))
     gradientMode = attr.ib(default='none', validator=instance_of(str))
-    legendDisplayMode = attr.ib(default='list', validator=instance_of(str))
-    legendPlacement = attr.ib(default='bottom', validator=instance_of(str))
+    legendDisplayMode = attr.ib(default='table', validator=instance_of(str))
+    legendPlacement = attr.ib(default='right', validator=instance_of(str))
     legendCalcs = attr.ib(
-        factory=list,
+        default=['min', 'max', 'mean', 'last'],
         validator=attr.validators.deep_iterable(
             member_validator=in_([
                 'lastNotNull',
@@ -2424,9 +2424,9 @@ class TimeSeries(Panel):
     scaleDistributionType = attr.ib(default='linear', validator=instance_of(str))
     scaleDistributionLog = attr.ib(default=2, validator=instance_of(int))
     spanNulls = attr.ib(default=False, validator=instance_of(bool))
-    showPoints = attr.ib(default='auto', validator=instance_of(str))
+    showPoints = attr.ib(default='never', validator=instance_of(str))
     stacking = attr.ib(factory=dict, validator=instance_of(dict))
-    tooltipMode = attr.ib(default='single', validator=instance_of(str))
+    tooltipMode = attr.ib(default='multi', validator=instance_of(str))
     tooltipSort = attr.ib(default='none', validator=instance_of(str))
     unit = attr.ib(default='', validator=instance_of(str))
     thresholdsStyleMode = attr.ib(default='off', validator=instance_of(str))
