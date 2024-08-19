@@ -2388,6 +2388,8 @@ class TimeSeries(Panel):
     gradientMode = attr.ib(default='none', validator=instance_of(str))
     legendDisplayMode = attr.ib(default='table', validator=instance_of(str))
     legendPlacement = attr.ib(default='right', validator=instance_of(str))
+    legendSortBy = attr.ib(default='Last', validator=instance_of(str))
+    legendSortDesc = attr.ib(default=True, validator=instance_of(bool))
     legendCalcs = attr.ib(
         default=['min', 'max', 'mean', 'last'],
         validator=attr.validators.deep_iterable(
@@ -2485,7 +2487,9 @@ class TimeSeries(Panel):
                     'legend': {
                         'displayMode': self.legendDisplayMode,
                         'placement': self.legendPlacement,
-                        'calcs': self.legendCalcs
+                        'calcs': self.legendCalcs,
+                        'sortBy': self.legendSortBy,
+                        'sortDesc': self.legendSortDesc
                     },
                     'tooltip': {
                         'mode': self.tooltipMode,
