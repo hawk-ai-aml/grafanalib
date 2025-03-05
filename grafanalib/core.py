@@ -1934,6 +1934,7 @@ class Dashboard(object):
                 "Warning: You are using both panels and rows in this dashboard, please use one or the other. "
                 "Panels should be used in preference over rows, see example dashboard for help."
             )
+
         return {
             '__inputs': self.inputs,
             'annotations': self.annotations,
@@ -2379,6 +2380,7 @@ class TimeSeries(Panel):
     :param axisSoftMax: soft maximum Y axis value
     """
 
+    panelId = attr.ib(default=None)
     axisPlacement = attr.ib(default='auto', validator=instance_of(str))
     axisLabel = attr.ib(default='', validator=instance_of(str))
     barAlignment = attr.ib(default=0, validator=instance_of(int))
@@ -2442,6 +2444,7 @@ class TimeSeries(Panel):
     def to_json_data(self):
         return self.panel_json(
             {
+                'id': self.panelId,
                 'fieldConfig': {
                     'defaults': {
                         'color': {
