@@ -2381,6 +2381,7 @@ class TimeSeries(Panel):
     """
 
     panelId = attr.ib(default=None)
+    panelIdAuto = attr.ib(default=False, validator=instance_of(bool))
     axisPlacement = attr.ib(default='auto', validator=instance_of(str))
     axisLabel = attr.ib(default='', validator=instance_of(str))
     barAlignment = attr.ib(default=0, validator=instance_of(int))
@@ -2440,6 +2441,19 @@ class TimeSeries(Panel):
     valueDecimals = attr.ib(default=None, validator=attr.validators.optional(instance_of(int)))
     axisSoftMin = attr.ib(default=None, validator=attr.validators.optional(instance_of(int)))
     axisSoftMax = attr.ib(default=None, validator=attr.validators.optional(instance_of(int)))
+
+    def __attrs_post_init__(self):
+        if self.panelIdAuto:
+            self.panelId = self._generate_hash(self.title)
+
+    def _generate_hash(self, s: str) -> int:
+        # Custom hash function: Sum the ASCII values of the characters
+        hash_value = 0
+        for char in s:
+            hash_value = (hash_value * 31 + ord(char)) % 1000  # Using 31 as a multiplier (a common prime)
+
+        # Ensure the result is between 1 and 999 (not 0)
+        return hash_value if hash_value > 0 else 1
 
     def to_json_data(self):
         return self.panel_json(
