@@ -1182,6 +1182,19 @@ class Evaluator(object):
             'params': self.params,
         }
 
+    def __str__(self):
+        if self.type == EVAL_GT:
+            return f"> {self.params[0]}"
+        elif self.type == EVAL_LT:
+            return f"< {self.params[0]}"
+        elif self.type == EVAL_WITHIN_RANGE:
+            return f"within range {self.params[0]} to {self.params[1]}"
+        elif self.type == EVAL_OUTSIDE_RANGE:
+            return f"outside range {self.params[0]} to {self.params[1]}"
+        elif self.type == EVAL_NO_VALUE:
+            return "no value"
+        else:
+            return f"{self.type} {self.params}"
 
 def GreaterThan(value):
     return Evaluator(EVAL_GT, [value])
