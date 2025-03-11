@@ -2345,6 +2345,8 @@ class Graph(Panel):
         return self._map_targets(set_refid)
 
 
+generated_hashes = set()
+
 @attr.s
 class TimeSeries(Panel):
     """Generates Time Series panel json structure added in Grafana v8
@@ -2463,10 +2465,19 @@ class TimeSeries(Panel):
         # Custom hash function: Sum the ASCII values of the characters
         hash_value = 0
         for char in s:
-            hash_value = (hash_value * 31 + ord(char)) % 1000  # Using 31 as a multiplier (a common prime)
+            hash_value = (hash_value * 31 + ord(char)) % 10000  # Using 31 as a multiplier (a common prime)
 
-        # Ensure the result is between 1 and 999 (not 0)
-        return hash_value if hash_value > 0 else 1
+        # If the hash already exists, modify it until it's unique
+        while hash_value in generated_hashes:
+            # Simple collision resolution: append the length of the string to the input and rehash
+            s = s + str(len(s))  # Modify the string to try and generate a new hash
+            hash_value = 0
+            for char in s:
+                hash_value = (hash_value * 31 + ord(char)) % 10000
+
+        generated_hashes.add(hash_value)  # Add the new unique hash to the set
+
+        return hash_value if hash_value > 0 else 1  # Ensure non-zero value
 
     def to_json_data(self):
         return self.panel_json(
