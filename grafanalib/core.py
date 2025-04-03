@@ -2409,7 +2409,7 @@ class TimeSeries(Panel):
     legendSortBy = attr.ib(default='Last', validator=instance_of(str))
     legendSortDesc = attr.ib(default=True, validator=instance_of(bool))
     legendCalcs = attr.ib(
-        default=['min', 'max', 'mean', 'last'],
+        default=['last', 'mean', 'max', 'min'],
         validator=attr.validators.deep_iterable(
             member_validator=in_([
                 'lastNotNull',
