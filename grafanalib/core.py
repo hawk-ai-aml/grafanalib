@@ -1365,7 +1365,7 @@ class AlertExpression(object):
     )
     hide = attr.ib(default=False, validator=instance_of(bool))
     intervalMs = attr.ib(default=1000, validator=instance_of(int))
-    maxDataPoints = attr.ib(default=43200, validator=instance_of(int))
+    maxDataPoints = attr.ib(default=4320, validator=instance_of(int))
 
     reduceFunction = attr.ib(
         default=EXP_REDUCER_FUNC_MEAN,
