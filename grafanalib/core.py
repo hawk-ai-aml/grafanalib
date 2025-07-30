@@ -2516,6 +2516,7 @@ class TimeSeries(Panel):
                             'axisSoftMin': self.axisSoftMin,
                             'axisSoftMax': self.axisSoftMax
                         },
+                        "noValue" : "Everything looks good",
                         'mappings': self.mappings,
                         "min": self.valueMin,
                         "max": self.valueMax,
