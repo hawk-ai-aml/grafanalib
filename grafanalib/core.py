@@ -2450,6 +2450,7 @@ class TimeSeries(Panel):
     tooltipSort = attr.ib(default='none', validator=instance_of(str))
     unit = attr.ib(default='', validator=instance_of(str))
     thresholdsStyleMode = attr.ib(default='off', validator=instance_of(str))
+    noValue = attr.ib(default='No Data', validator=instance_of(str))
 
     valueMin = attr.ib(default=None, validator=attr.validators.optional(instance_of(int)))
     valueMax = attr.ib(default=None, validator=attr.validators.optional(instance_of(int)))
@@ -2516,7 +2517,7 @@ class TimeSeries(Panel):
                             'axisSoftMin': self.axisSoftMin,
                             'axisSoftMax': self.axisSoftMax
                         },
-                        "noValue" : "Everything looks good",
+                        "noValue" : self.noValue,
                         'mappings': self.mappings,
                         "min": self.valueMin,
                         "max": self.valueMax,
