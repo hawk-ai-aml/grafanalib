@@ -1774,7 +1774,7 @@ class AlertRulev11(object):
         ])
     )
     errorAlertState = attr.ib(
-        default=ALERTRULE_STATE_DATA_KEEPLAST_V11,
+        default=ALERTRULE_STATE_DATA_ALERTING,
         validator=in_([
             ALERTRULE_STATE_DATA_OK,
             ALERTRULE_STATE_DATA_ALERTING,
