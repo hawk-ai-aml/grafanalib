@@ -1,0 +1,4 @@
+# AUTO-GENERATED from hawk-ai-aml/incident-io-catalog-types — DO NOT EDIT MANUALLY
+# Sources: catalog/services.jsonnet + ownership/repos.yaml (via ownership/generate_ownership.py)
+
+* @hawk-ai-aml/org-platform-engineering @hawk-ai-aml/leads
